@@ -1,0 +1,19 @@
+yum update -y
+yum install -y tomcat 
+yum install -y tomcat-admin-webapps
+yum install -y tomcat-webapps
+yum install -y tomcat-docs-webapp
+
+chown -R root:root /etc/tomcat/
+sed 's%port="8080"%port="80"%g' -i /etc/tomcat/server.xml
+
+systemctl restat tomcat
+
+
+
+이걸 해주고 
+
+application.properties 
+에서 
+server.port=80
+으로 변경해주면 된다

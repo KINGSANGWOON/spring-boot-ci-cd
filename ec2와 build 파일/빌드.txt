@@ -1,0 +1,30 @@
+version: 0.2
+phases:
+  build:
+    commands:
+      - echo Build Starting on `date`
+      - chmod +x ./gradlew
+      - ./gradlew build
+  post_build:
+    commands:
+      - echo $(basename ./build/libs/*.jar)
+      - pwd
+reports:
+  arn:aws:codebuild:ap-northeast-2:850890502858:report-group/skills-codebuild-report-group-2:
+    files:
+      - '**/*'
+    base-directory: 'build/test-results/test'
+artifacts:
+  files:
+    - build/libs/*.jar 
+    - appspec.yml   
+    - scripts/**    
+  discard-paths: yes
+  cache:
+    paths:
+      - '/root/.gradle/caches/**/*'
+  secondary-artifacts:
+      artifact1:
+        files:
+          - scripts/**
+        name: skills-codebuild-bucket-2
